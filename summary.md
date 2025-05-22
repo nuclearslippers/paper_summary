@@ -15,11 +15,11 @@
 | StrongSORT      | TM2023 | Deepsort现代版，两个新机制       | [查看]() | camera |
 | DFRFast      | ICRA2023 | C++又快又好       | [查看](#dfr) | LiDAR+camera |
 | MOTRv2      | CVPR2023 | E2E+TBD，改进了E2E效果       | [查看]() | camera |
-| Fusiontrack      | IROS2024 | ??       | [查看]() | LiDAR+camera |
+| Fusiontrack      | IROS2024 | 提出三个模块以提高指标-       | [查看]() | LiDAR+camera |
 | DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看]() | camera |
-| Co-MOT      | TITS2024 | ??未开源       | [查看]() | LiDAR |
-| FastPOLY      | RAL2024 | ??       | [查看]() | LiDAR |
-| FastTrack      | IJCV2024 | ?并行卡尔曼滤波       | [查看]() | camera |
+| Co-MOT      | TITS2024 | 提出改进的GNN进行运动建模-。未开源       | [查看]() | LiDAR |
+| FastPOLY      | RAL2024 | 仔细考虑运动模型的构建CTRV，引入旋亲和度-       | [查看]() | LiDAR |
+| FastTrack      | IJCV2024 | 并行卡尔曼滤波-       | [查看]() | camera |
 | MCTrack      | Arxiv2025 | 效果最好的开源追踪器       | [查看]() | LiDAR+camera |
 | ERMOT      | TII2025 | 一种更新策略，未开源       | [查看]() | camera |
 | MMFJDT      | RAL2025 | 检测追踪融合框架，效果似乎不太好       | [查看]() | LiDAR+camera |
@@ -45,25 +45,6 @@
 ### 🎯 核心内容
 - 在SORT的基础上，增加了外貌特征网络，准确性得到了大大的提高。
 
-<a id="dfr"></a>
-## DFR-FastMOT: Detection Failure Resistant Tracker for Fast Multi-Object Tracking Based on Sensor Fusion
-
-
-<a id="simpletrack"></a>
-## Simpletrack: Understanding and rethinking 3d multi-object tracking
-### 🎯 核心观点
-1. 观点1  
-2. 观点2  
-3. 观点3  
-
-### 💡 学习收获
-- 可借鉴的方法:  
-- 启发性的结论:  
-- 待验证的问题:  
-
-### 🔗 关联思考
-- 与我研究的联系:  
-- 延伸阅读方向:  
 
 <a id="ab3dmot"></a>
 ## 3d multi-object tracking: A baseline and new evaluation metrics
@@ -73,8 +54,6 @@
 
 ### 🎯 核心内容
 - 将TBD框架应用到LiDAR的MOT任务上。
-
-### 💡 学习收获
 
 
 <a id="eagermot"></a>
@@ -140,7 +119,19 @@
 - 发表信息：European conference on computer vision 2022
 
 ### 🎯 核心内容
-- 1
+- 
 
 ### 💡 学习收获
-- 1
+- 
+
+<a id="dfr"></a>
+## DFR-FastMOT: Detection Failure Resistant Tracker for Fast Multi-Object Tracking Based on Sensor Fusion
+### 🌟 基本信息
+- 开源地址：
+- 发表信息：
+
+### 🎯 核心内容
+- 
+
+### 💡 学习收获 
+- 
