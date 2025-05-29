@@ -2,27 +2,31 @@
 
 ## 目录表格
 |       简称        | 发表信息 | 核心贡献描述                     | 具体信息 | 传感器       |  其他   |
-|----------------------|--------------|----------------------------------|----------|--------------|---------|
+|----------------------|--------------|----------------------------------|----------|--------------|------|
 | SORT      | ICIP2016 | TBD框架的开创论文       | [查看](#sort) | camera | - |
 | DeepSORT      | ICIP2017 | 首个引入外貌特征的MOT       | [查看](#deepsort) | camera | - |
-| AB3DMOT      | IROS2020 | 将TBD带入3D追踪邻域       | [查看](#ab3dmot) | LiDAR | 细节需要进一步验证 |
+| AB3DMOT      | IROS2020 | 将TBD带入3D追踪邻域       | [查看](#ab3dmot) | LiDAR | 待细看 |
 | EagerMOT      | IRCA2021 | 首个将相机激光雷达融合的TBD框架       | [查看](#eagermot) | LiDAR+camera | - |
-| DeepFusionMOT      | RAL2022 | 提出4阶段的数据关联       | [查看](#deepfusionmot) | LiDAR+camera |
-| ys_tracker      | TITS2022 | 为激光引入检测置信度，添加激光特特征       | [查看](#ys_tracker) | LiDAR |
-| simpletrack      | ECCV2022 | 全面总结TBD的问题       | [查看](#simpletrack) | LiDAR |
-| ByteTrack      | ECCV2022 | 引入二阶段的数据关联       | [查看]() | camera |
-| MOTR      | ECCV2022 | 首个E2EMOT       | [查看]() | camera |
-| StrongSORT      | TM2023 | Deepsort现代版，两个新机制       | [查看]() | camera |
-| DFRFast      | ICRA2023 | C++又快又好       | [查看](#dfr) | LiDAR+camera |
-| MOTRv2      | CVPR2023 | E2E+TBD，改进了E2E效果       | [查看]() | camera |
-| Fusiontrack      | IROS2024 | 提出三个模块以提高指标-       | [查看]() | LiDAR+camera |
-| DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看]() | camera |
-| Co-MOT      | TITS2024 | 提出改进的GNN进行运动建模-。未开源       | [查看]() | LiDAR |
-| FastPOLY      | RAL2024 | 仔细考虑运动模型的构建CTRV，引入旋亲和度-       | [查看]() | LiDAR |
-| FastTrack      | IJCV2024 | 并行卡尔曼滤波-       | [查看]() | camera |
-| MCTrack      | Arxiv2025 | 效果最好的开源追踪器       | [查看]() | LiDAR+camera |
-| ERMOT      | TII2025 | 一种更新策略，未开源       | [查看]() | camera |
-| MMFJDT      | RAL2025 | 检测追踪融合框架，效果似乎不太好       | [查看]() | LiDAR+camera |
+| DeepFusionMOT      | RAL2022 | 提出4阶段的数据关联       | [查看](#deepfusionmot) | LiDAR+camera | - |
+| ys_tracker      | TITS2022 | 为激光引入检测置信度，添加激光特特征       | [查看](#ys_tracker) | LiDAR | - |
+| simpletrack      | ECCV2022 | 全面总结TBD的问题       | [查看](#simpletrack) | LiDAR | - |
+| ByteTrack      | ECCV2022 | 引入二阶段的数据关联       | [查看](#bytetrack) | camera | - |
+| MOTR      | ECCV2022 | 首个E2EMOT       | [查看]() | camera | - |
+| StrongSORT      | TM2023 | Deepsort现代版，两个新机制       | [查看]() | camera | - |
+| DFRFast      | ICRA2023 | C++又快又好       | [查看](#dfr) | LiDAR+camera | - |
+| MOTRv2      | CVPR2023 | E2E+TBD，改进了E2E效果       | [查看]() | camera | - |
+| Fusiontrack      | IROS2024 | 融合方法+提点模块      | [查看](#fusiontrack) | LiDAR+camera | - |
+| DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看]() | camera | - |
+| Co-MOT      | TITS2024 | 提出改进的GNN进行运动建模-。未开源       | [查看]() | LiDAR | - |
+| FastPOLY      | RAL2024 | 仔细考虑运动模型的构建CTRV，引入旋亲和度-       | [查看]() | LiDAR | - |
+| FastTrack      | IJCV2024 | 并行卡尔曼滤波-       | [查看]() | camera | - |
+| MMTracker      | AAAI2025 | ?       | [查看]() | camera | - |
+| MambaTrack      | ACMMM2025 | 引入Mamba模型取代KF       | [查看](#mambatrack) | camera | - |
+| MCTrack      | Arxiv2025 | 效果最好的开源追踪器       | [查看]() | LiDAR+camera | - |
+| ERMOT      | TII2025 | 一种更新策略，未开源       | [查看]() | camera | - |
+| MMFJDT      | RAL2025 | 检测追踪融合框架，效果似乎不太好       | [查看]() | LiDAR+camera | - |
+| sambamotr   | ICLR2025  |  mamba结构的E2EMOT    | [查看]() | camera | - |
+
 
 <a id="sort"></a>
 ## Simple online and realtime tracking
@@ -113,7 +117,6 @@
 
 <a id="simpletrack"></a>
 ## Simpletrack: Understanding and rethinking 3d multi-object tracking
-
 ### 🌟 基本信息
 - 开源地址：https://github.com/tusen-ai/SimpleTrack
 - 发表信息：European conference on computer vision 2022
@@ -123,6 +126,16 @@
 
 ### 💡 学习收获
 - 
+
+<a id="bytetrack"></a>
+## ByteTrack: Multi-Object Tracking by Associating Every Detection Box
+### 🌟 基本信息
+- 开源地址：https://github.com/ifzhang/ByteTrack
+- 发表信息：European conference on computer vision 2022
+
+### 🎯 核心内容
+- 提出了一个二阶段的数据关联方法，根据检测结果的执行度进行两次匹配。结果证明提升效果非常明显
+
 
 <a id="dfr"></a>
 ## DFR-FastMOT: Detection Failure Resistant Tracker for Fast Multi-Object Tracking Based on Sensor Fusion
@@ -135,3 +148,41 @@
 
 ### 💡 学习收获 
 - 
+
+
+<a id="fusiontrack"></a>
+## FusionTrack: An Online 3D Multi-object Tracking Framework Based on Camera-LiDAR Fusion
+### 🌟 基本信息
+- 开源地址：https://github.com/zengwz/FusionTrack
+- 发表信息：2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+![基本框架](./frame_work/fusiontrack.png)
+
+### 🎯 核心内容
+- 新的融合框架：利用了相机的外貌特征。数据关联也引入融合。
+- 检测滤波模块(DFM)：针对误检的情况，过去的解决方法是多检测几帧才确认追踪，这引入了延迟问题。作者将未匹配的检测投影到2D进行检查，确认是否是误匹配。
+- 外观相似度匹配模块(ASMM)：二阶段数据关联引入外貌特征进行匹配。之前是用GIoU进行匹配。这个部分作者还新建了一个特征提取网络
+- 轨迹恢复模块(TRM)：针对漏检的目标，作者提出了这个模块。还是使用相机的检测结果来帮助3D检测。当轨迹的预测结果投影和相机重合度高，就认为这个预测是好的，保留并且作为3D的检测结果。
+
+
+### 💡 学习收获 
+- 注意到，本文使用了外貌特征。因此，作者也使用了EMA模块来更新外貌特征。
+- 本文使用的是KF-CA模型。
+- 本文非常适合作为对比目标。它是IROS24年结果，并且方法也很常规，指标不算特别高。
+
+
+
+<a id="mambatrack"></a>
+## MambaTrack: A Multi-Modal Multi-Object Tracking Framework with a Novel Kalman Filter
+### 🌟 基本信息
+- 开源地址：https://github.com/JackWoo0831/Mamba_Trackers (非官方实现)
+- 发表信息：ACMMM 2025
+
+### 🎯 核心内容
+- 将Mamba模块引入追踪器，取代卡尔曼滤波器从而达到更好的非线性预测效果。
+
+### 💡 学习收获 
+- 该文章仅仅添加了Mamba模块，其它都使用的SORT基本框架。但是其效果非常好，说明Mamba模块确实有很好的效果。
+
+### 🎨 TODO
+- 实现Mamba模块，并添加到SORT中。
+- 具体理解Mamba原理。
