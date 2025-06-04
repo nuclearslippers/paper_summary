@@ -14,12 +14,13 @@
 | MOTR      | ECCV2022 | 首个E2EMOT       | [查看]() | camera | - |
 | StrongSORT      | TM2023 | Deepsort现代版，两个新机制       | [查看]() | camera | - |
 | DFRFast      | ICRA2023 | C++又快又好       | [查看](#dfr) | LiDAR+camera | - |
+| POLY-MOT   | IROS2023  | 不同类目标采用不同运动模型   | [查看](#ploymot) | LiDAR | - |
 | MOTRv2      | CVPR2023 | E2E+TBD，改进了E2E效果       | [查看]() | camera | - |
 | Fusiontrack      | IROS2024 | 融合方法+提点模块      | [查看](#fusiontrack) | LiDAR+camera | - |
 | DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看]() | camera | - |
-| Co-MOT      | TITS2024 | 提出改进的GNN进行运动建模-。未开源       | [查看]() | LiDAR | - |
 | FastPOLY      | RAL2024 | 仔细考虑运动模型的构建CTRV，引入旋亲和度-       | [查看]() | LiDAR | - |
 | FastTrack      | IJCV2024 | 并行卡尔曼滤波-       | [查看]() | camera | - |
+| Co-MOT-tits      | TITS2025 | 提出改进的GNN进行运动建模-。未开源       | [查看](Co-MOT-tits) | LiDAR | - |
 | MMTracker      | AAAI2025 | ?       | [查看]() | camera | - |
 | MambaTrack      | ACMMM2025 | 引入Mamba模型取代KF       | [查看](#mambatrack) | camera | - |
 | MCTrack      | Arxiv2025 | 效果最好的开源追踪器       | [查看]() | LiDAR+camera | - |
@@ -156,6 +157,21 @@
 - 
 
 
+<a id="ploymot"></a>
+### 🌟 基本信息
+- 开源地址：https://github.com/lixiaoyu2000/Poly-MOT
+- 发表信息：2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+
+### 🎯 核心内容
+- 提出了两个运动模型：CTRA用于车辆等，Bicycle用于自行车等。
+
+### 💡 学习收获 
+- 他们实验室走的是传统模型路线，设计了非常精细的模型，并且配套复杂的处理机制，从而提高最终效果。
+
+
+
+
+
 <a id="fusiontrack"></a>
 ## FusionTrack: An Online 3D Multi-object Tracking Framework Based on Camera-LiDAR Fusion
 ### 🌟 基本信息
@@ -175,6 +191,12 @@
 - 本文使用的是KF-CA模型。
 - 本文非常适合作为对比目标。它是IROS24年结果，并且方法也很常规，指标不算特别高。
 
+<a id="Co-MOT-tits"></a>
+## Co-MOT: Exploring the Collaborative Relations in Traffic Flow for 3D Multi-Object Tracking
+### 🌟 基本信息
+- 未开源
+- 发表信息：IEEE Transactions on Intelligent Transportation Systems ( Volume: 26, Issue: 4, April 2025)
+- 其他：注意有两个简称Co-MOT的方法，为了避免混淆，这里使用Co-MOT-tits来表示，是使用GNN修正KF的方法。另一种是E2E方法。
 
 
 <a id="mambatrack"></a>
