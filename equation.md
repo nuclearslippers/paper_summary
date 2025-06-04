@@ -44,9 +44,8 @@ x &= x_{\text{pre}} + K_k \cdot (z - H \cdot x_{\text{pre}}) \\
 P &= (I - K_k \cdot H) \cdot P_{\text{pre}}
 \end{align*}
 $$
-注意，filterpy库中的实现是略有不同的。对于最后一个公式，它进行了一定的修正。
 </center>
-
+注意，filterpy库中的实现是略有不同的。对于最后一个公式，它进行了一定的修正。
 
 
 
