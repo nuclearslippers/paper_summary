@@ -41,6 +41,7 @@
 ### 💡 学习收获
 - 使用的是kalman滤波进行状态估计，匈牙利算法进行匹配，距离函数使用的是IOU。
 
+<hr style="height: 4px; border: none; background: black;">
 <a id="deepsort"></a>
 ## Simple online and realtime tracking with a deep association metric
 ### 🌟 基本信息
@@ -50,7 +51,7 @@
 ### 🎯 核心内容
 - 在SORT的基础上，增加了外貌特征网络，准确性得到了大大的提高。
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="ab3dmot"></a>
 ## 3d multi-object tracking: A baseline and new evaluation metrics
 ### 🌟 基本信息
@@ -60,7 +61,7 @@
 ### 🎯 核心内容
 - 将TBD框架应用到LiDAR的MOT任务上。
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="eagermot"></a>
 ## EagerMOT: 3D Multi-Object Tracking via Sensor Fusion
 ### 🌟 基本信息
@@ -80,7 +81,7 @@
 ### 💡 学习收获
 - 可以说是第一个完整的多传感器融合的MOT框架。结构经典很清晰，后续工作可以在此基础上改进。
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="deepfusionmot"></a>
 ##  DeepFusionMOT: A 3D Multi-Object Tracking Framework Based on Camera-LiDAR Fusion With Deep Association
 
@@ -96,6 +97,7 @@
 - 代码很清晰，结构好。可以以此为基础继续代码上的改进。
 - 创新点很简单，可以说是将eagermot的工作清晰化了。
 
+<hr style="height: 4px; border: none; background: black;">
 <a id="ys_tracker"></a>
 ## 3D Multi-Object Tracking in Point Clouds Based on Prediction Confidence-Guided Data Association
 
@@ -115,7 +117,7 @@
 ### 😃 其他   
 - ys_tracker : 作者是原神哥
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="simpletrack"></a>
 ## Simpletrack: Understanding and rethinking 3d multi-object tracking
 ### 🌟 基本信息
@@ -134,6 +136,7 @@
 - 出现IDS的主要原因其实是由于轨迹的提前中断。论文中提到90%以上都是因为这个。而造成中断的无非就是遮挡和点云稀疏。
 - 本文提到，Nuscenes数据集基准可能不太合理。静态车多，传感器频率低（2Hz），评价标准注重轨迹质量（还使用插值）。
 
+<hr style="height: 4px; border: none; background: black;">
 <a id="bytetrack"></a>
 ## ByteTrack: Multi-Object Tracking by Associating Every Detection Box
 ### 🌟 基本信息
@@ -143,7 +146,7 @@
 ### 🎯 核心内容
 - 提出了一个二阶段的数据关联方法，根据检测结果的执行度进行两次匹配。结果证明提升效果非常明显
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="dfr"></a>
 ## DFR-FastMOT: Detection Failure Resistant Tracker for Fast Multi-Object Tracking Based on Sensor Fusion
 ### 🌟 基本信息
@@ -156,7 +159,7 @@
 ### 💡 学习收获 
 - 
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="ploymot"></a>
 ## Poly-MOT: A Polyhedral Framework For 3D Multi-Object Tracking
 ### 🌟 基本信息
@@ -172,7 +175,7 @@
 
 
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="fusiontrack"></a>
 ## FusionTrack: An Online 3D Multi-object Tracking Framework Based on Camera-LiDAR Fusion
 ### 🌟 基本信息
@@ -192,6 +195,7 @@
 - 本文使用的是KF-CA模型。
 - 本文非常适合作为对比目标。它是IROS24年结果，并且方法也很常规，指标不算特别高。
 
+<hr style="height: 4px; border: none; background: black;">
 <a id="Co-MOT-tits"></a>
 ## Co-MOT: Exploring the Collaborative Relations in Traffic Flow for 3D Multi-Object Tracking
 ### 🌟 基本信息
@@ -199,7 +203,7 @@
 - 发表信息：IEEE Transactions on Intelligent Transportation Systems ( Volume: 26, Issue: 4, April 2025)
 - 其他：注意有两个简称Co-MOT的方法，为了避免混淆，这里使用Co-MOT-tits来表示，是使用GNN修正KF的方法。另一种是E2E方法。
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="mambatrack"></a>
 ## MambaTrack: A Multi-Modal Multi-Object Tracking Framework with a Novel Kalman Filter
 ### 🌟 基本信息

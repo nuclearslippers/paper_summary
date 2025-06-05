@@ -21,7 +21,7 @@ $GIoU = IoU_{3d} - \frac{V_c - U}{V_c}$
 其中，$V_c$代表能够包含两个框的最小立方体体积。$U$代表两个检测框的交集体积。
 </center>
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="L2-distance"></a>
 ### L2 distance
 L2距离是简单的欧几里得距离。
@@ -48,7 +48,7 @@ $$
 注意，filterpy库中的实现是略有不同的。对于最后一个公式，它进行了一定的修正。
 
 
-
+<hr style="height: 4px; border: none; background: black;">
 <a id="ekf"></a>
 ### Extended Kalman Filter
 扩展卡尔曼滤波器是基于普通卡尔曼滤波器的扩展，用于处理非线性系统。其原理是对模型进行泰勒一阶展开，从而处理非线性系统。下面是对常用非线性模型CTRV的扩展卡尔曼滤波器的数学公式。
