@@ -109,6 +109,7 @@
 ### 🌟 基本信息
 - 开源地址：https://github.com/hailanyi/3D-Multi-Object-Tracker
 - 发表信息：IEEE Transactions on Intelligent Transportation Systems 2022
+![基本框架](./frame_work/ys_tracker.png)
 
 ### 🎯 核心内容
 - 提出了一个置信度网络来进行数据关联
@@ -158,14 +159,19 @@
 <a id="dfr"></a>
 ## DFR-FastMOT: Detection Failure Resistant Tracker for Fast Multi-Object Tracking Based on Sensor Fusion
 ### 🌟 基本信息
-- 开源地址：
-- 发表信息：
+- 开源地址：https://github.com/MohamedNagyMostafa/DFRFastMOT
+- 发表信息：2023 IEEE International Conference on Robotics and Automation (ICRA)
+![基本框架](./frame_work/dfrfastmot.png)
 
 ### 🎯 核心内容
-- 
+- 首先是距离函数的使用，非常简单。相机用IOU，雷达用3D中心距离。然后设置两个阈值，接着设置参数占比来整合两种传感器的距离函数矩阵。
+- 数据关联方法是介于匈牙利算法和贪婪算法之间。文中描述是：直接选择距离函数最好的进行匹配，直到阈值。因此，该算一个贪婪算法吧。
+- 在3D状态也做2D的估计。
 
 ### 💡 学习收获 
-- 
+- 采用的还是经典框架
+- 这个方法很奇怪，基本没有什么大的变动，但是它效果却很好。
+- 有一些简单的多传感器融合的地方，例如遗失帧取两种传感器的最小值。
 
 <hr style="height: 4px; border: none; background: black;">
 
