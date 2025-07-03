@@ -20,7 +20,8 @@
 | DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看]() | camera | - |
 | FastPOLY      | RAL2024 | 仔细考虑运动模型的构建CTRV，引入旋亲和度-       | [查看]() | LiDAR | - |
 | FastTrack      | IJCV2024 | 并行卡尔曼滤波-       | [查看]() | camera | - |
-| Co-MOT-tits      | TITS2025 | 提出改进的GNN进行运动建模-。未开源       | [查看](Co-MOT-tits) | LiDAR | - |
+| STT      | ICRA2024 | Transformer取代更多模块       | [查看](STT) | LiDAR | - |
+| Co-MOT-tits      | TITS2025 | 提出改进的GNN进行运动建模-。未开源       | [查看](#Co-MOT-tits) | LiDAR | - |
 | MMTracker      | AAAI2025 | ?       | [查看]() | camera | - |
 | MambaTrack      | ACMMM2025 | 引入Mamba模型取代KF       | [查看](#mambatrack) | camera | - |
 | MCTrack      | Arxiv2025 | 效果最好的开源追踪器       | [查看]() | LiDAR+camera | - |
@@ -210,6 +211,24 @@
 - 注意到，本文使用了外貌特征。因此，作者也使用了EMA模块来更新外貌特征。
 - 本文使用的是KF-CA模型。
 - 本文非常适合作为对比目标。它是IROS24年结果，并且方法也很常规，指标不算特别高。
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="STT"></a>
+## STT: Stateful Tracking with Transformers for Autonomous Driving
+### 🌟 基本信息
+- 未开源
+- 发表信息：2024 IEEE International Conference on Robotics and Automation (ICRA)
+![基本框架](./frame_work/stt.png)
+
+### 🎯 核心内容
+- 作者设计了Encoder和Decoder将目标状态在两个空间进行转换。然后基于Transformer结构设计了TF模块，将历史的检测信息提取出query。TDI模块交叉注意力模块得到关联矩阵。随后还是进行的匈牙利算法等常规方法，但是论文中没讲。
+
+### 💡 学习收获 
+- 虽然文章整体没怎么写清楚，但是思路确实前沿，跟我的构想越细究越像。
+- 由于匹配和生命周期管理都是不可微的，因此这个部分是无法参与到神经网络的反向传播的。因此两者需要分开进行训练/调参。
+- 损失函数，我觉得就先采用该文章的交叉熵损失。
+
 
 <hr style="height: 4px; border: none; background: black;">
 
