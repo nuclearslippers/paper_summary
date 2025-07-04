@@ -16,6 +16,7 @@
 | DFRFast      | ICRA2023 | C++又快又好       | [查看](#dfr) | LiDAR+camera | - |
 | POLY-MOT   | IROS2023  | 不同类目标采用不同运动模型   | [查看](#ploymot) | LiDAR | - |
 | MOTRv2      | CVPR2023 | E2E+TBD，改进了E2E效果       | [查看]() | camera | - |
+| OC-SORT      | CVPR2023 | 利用观测值来固定滤波误差       | [查看](#ocsort) | camera | - |
 | Fusiontrack      | IROS2024 | 融合方法+提点模块      | [查看](#fusiontrack) | LiDAR+camera | - |
 | DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看]() | camera | - |
 | FastPOLY      | RAL2024 | 仔细考虑运动模型的构建CTRV，引入旋亲和度-       | [查看]() | LiDAR | - |
@@ -187,6 +188,27 @@
 
 ### 💡 学习收获 
 - 他们实验室走的是传统模型路线，设计了非常精细的模型，并且配套复杂的处理机制，从而提高最终效果。
+
+
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="ocsort"></a>
+## Observation-Centric SORT: Rethinking SORT for Robust Multi-Object Tracking
+### 🌟 基本信息
+- 开源地址：https://github.com/noahcao/OC_SORT
+- 发表信息：2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+![基本框架](./frame_work/ocsort.png)
+
+### 🎯 核心内容
+- 提出SORT的三个问题：1. 依赖于高频检测以拟合线性运动。 2. 当目标丢失时，误差积累迅速（特别是速度）。 3. 现代检测器的状态方差比SORT估计出来的结果更小。
+- 对于问题2，作者提出了一个新模块，'re-update'。当目标丢失再次被检测到时，激活这个模块。ORU
+- 还设计了一个考虑方向的关联矩阵，考虑了目标运动方向。OCM
+- 此外，还提出了一种启发式的改进模块，讲轨迹最后一次的观测值和检测值进行关联尝试。OCR
+
+
+### 💡 学习收获 
+- 文章推导出一个非常反直觉的结论：当$\delta_t$较小的时候，$\delta_t$越大两个时刻角度估计的误差越小。
 
 
 
