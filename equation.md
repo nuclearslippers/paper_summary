@@ -9,6 +9,7 @@
 | L2 distance | [详情](#L2-distance) |
 | Kalman Filter | [详情](#kf) |
 | Extended Kalman Filter | [详情](#ekf) |
+| HOTA | [详情](#hota) |
 </center>
 
 
@@ -78,3 +79,32 @@ P &= (I - K_k \cdot J_h) \cdot P_{\text{pre}}
 $$
 </center>
 
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="hota"></a>
+### HOTA: A Higher Order Metric for Evaluating Multi-object Tracking
+
+HOTA可以被视为三个IoU得分的组合。它将跟踪评估任务分为三个子任务（检测、关联和定位），并使用IoU（交并比）公式（也称为杰卡德指数）为每个子任务计算得分。
+
+1. 定位： 用于衡量追踪框和真实框之间的重合程度
+
+$$LocIOU = \frac{Intersection}{Union}$$
+
+$$LocA = \frac{1}{|TP|} \sum_{c \in TP} \mathrm{Loc-IoU}(c)$$
+
+2. 检测： 衡量所有预测检测集合与所有真实检测集合之间的对齐程度
+
+$$\mathrm{DetA} = \frac{|TP|}{|TP| + |FN| + |FP|}$$
+
+3. 关联： 衡量预测关联集合与真实关联集合之间的对齐程度
+
+$$\mathrm{AssA} = \frac{1}{|TP|} \sum_{c \in TP} \mathrm{Ass-IoU}(c) = \frac{1}{|TP|} \sum_{c \in TP} \frac{|TPA(c)|}{|TPA(c)| + |FNA(c)| + |FPA(c)|}
+$$
+
+最后综合考虑上面的三个方面，得到HOTA指标。（可能注意到没有LocA，因为这个指标内化在确定DetA和AssA中）
+$$\mathrm{HOTA}_{\alpha} = \sqrt{\mathrm{DetA}_{\alpha} \cdot \mathrm{AssA}_{\alpha}}$$
+
+__和其他指标的区别__
+我们可以通过下面这个例子看到，在HOTA中关联和检测的权重几乎相同，而不是想MOTA中那样，检测的权重明显更高。我认为这是非常合理的。
+
+![指标之间的区别](equation_eg/hota.png)

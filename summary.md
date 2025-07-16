@@ -29,6 +29,7 @@
 | ERMOT      | TII2025 | 一种更新策略，未开源       | [查看]() | camera | - |
 | MMFJDT      | RAL2025 | 检测追踪融合框架，效果似乎不太好       | [查看]() | LiDAR+camera | - |
 | sambamotr   | ICLR2025  |  mamba结构的E2EMOT    | [查看]() | camera | - |
+| DINOMOT | RAL2025  | 引入DINOv2特征提取模块 | [查看](#dinomot) | camera | - |
 
 
 <a id="sort"></a>
@@ -229,6 +230,8 @@
 - 轨迹恢复模块(TRM)：针对漏检的目标，作者提出了这个模块。还是使用相机的检测结果来帮助3D检测。当轨迹的预测结果投影和相机重合度高，就认为这个预测是好的，保留并且作为3D的检测结果。
 
 
+### :wheelchair: 工作流程
+
 ### 💡 学习收获 
 - 注意到，本文使用了外貌特征。因此，作者也使用了EMA模块来更新外貌特征。
 - 本文使用的是KF-CA模型。
@@ -278,3 +281,19 @@
 ### 🎨 TODO
 - 实现Mamba模块，并添加到SORT中。
 - 具体理解Mamba原理。
+
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="dinomot"></a>
+## DINO-MOT: 3D Multi-Object Tracking With Visual Foundation Model for Pedestrian Re-Identification Using Visual Memory Mechanism
+
+### 🌟 基本信息
+- 开源地址：未开源
+- 发表信息：RAL2025
+![基本框架](./frame_work/dinomot.png)
+
+### 🎯 核心内容
+- 将DINOv2特征提取器引入MOT
+- 它并非采用的传统REID的方法，而是使用视觉LUT来矫正追踪的情况。
+- 文章采用了两条线来完成追踪任务。主线依旧是传统的TBD框架，并且算是各方法的大成者，不同目标设置不同模型、不同参数、不同的关联矩阵和阈值。此外，另一条线就是重识别，利用LUT模块来纠正IDSW。主要思路是，如果提取到的特征和LUT库中的非常相似，那么这就是同一个目标，如果之前匹配错了此时会进行纠正。
