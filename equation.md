@@ -10,6 +10,7 @@
 | Kalman Filter | [详情](#kf) |
 | Extended Kalman Filter | [详情](#ekf) |
 | HOTA | [详情](#hota) |
+| KITTI坐标变换 | [详情](#kitti) |
 </center>
 
 
@@ -108,3 +109,35 @@ __和其他指标的区别__
 我们可以通过下面这个例子看到，在HOTA中关联和检测的权重几乎相同，而不是想MOTA中那样，检测的权重明显更高。我认为这是非常合理的。
 
 ![指标之间的区别](equation_eg/hota.png)
+
+
+<a id="kitti"></a>
+### KITTI坐标变换公式
+
+[mmdetection3d详细文档](https://mmdetection3d.readthedocs.io/zh-cn/latest/user_guides/coord_sys_tutorial.html)
+
+$$\mathbf{y} = \mathbf{P}_{rect}^{i} \cdot \mathbf{R}_{rect}^{0} \cdot \mathbf{T}_{velo}^{cam} \cdot \mathbf{x}$$
+
+推导过程：
+1. 点云齐次坐标（激光雷达坐标系）
+$$\mathbf{x} = \begin{bmatrix} x_{velo} \\ y_{velo} \\ z_{velo} \\ 1 \end{bmatrix} \quad (4 \times 1 \text{列向量})$$
+
+2. 激光雷达到相机的外参矩阵
+$$\mathbf{T}_{velo}^{cam} = \begin{bmatrix} \mathbf{R}_{3 \times 3} & \mathbf{T} \\ \mathbf{0}_{1 \times 3} & 1 \end{bmatrix} \quad (4 \times 4 \text{矩阵})$$
+
+3. 相机坐标系矫正矩阵（畸变矫正）
+$$\mathbf{R}_{rect}^{0} = \begin{bmatrix} \mathbf{R}_{rect\_00}^{3 \times 3} & \mathbf{0} \\ \mathbf{0}_{1 \times 3} & 1 \end{bmatrix} \quad (4 \times 4 \text{矩阵，由3×3矩阵扩展})$$
+
+注意，该步骤得到4*1列向量`(x,y,z,1)`，当z小于0时，说明该点在相机后侧，应该被忽略。
+
+4. 相机内参矩阵（映射到i号相机图像）
+$$\mathbf{P}_{rect}^{i} \quad (3 \times 4 \text{矩阵})$$
+
+5. 图像坐标（齐次形式）
+$$\mathbf{y} = \begin{bmatrix} x_{cam} \\ y_{cam} \\ Z_c \end{bmatrix} \quad (3 \times 1 \text{列向量})$$
+
+6. 最终图像坐标（归一化后）
+$$\text{图像坐标} = \left( \frac{x_{cam}}{Z_c}, \frac{y_{cam}}{Z_c} \right)$$
+
+7. 完整映射公式
+$$\mathbf{y} = \mathbf{P}_{rect}^{i} \cdot \mathbf{R}_{rect}^{0} \cdot \mathbf{T}_{velo}^{cam} \cdot \mathbf{x}$$
