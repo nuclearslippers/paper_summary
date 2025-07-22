@@ -7,6 +7,7 @@
 | DeepSORT      | ICIP2017 | 首个引入外貌特征的MOT       | [查看](#deepsort) | camera | - |
 | AB3DMOT      | IROS2020 | 将TBD带入3D追踪邻域       | [查看](#ab3dmot) | LiDAR | 待细看 |
 | EagerMOT      | IRCA2021 | 首个将相机激光雷达融合的TBD框架       | [查看](#eagermot) | LiDAR+camera | - |
+| Joint-xx-MOT | IROS2021 | 联合检测框架 | [查看](#joint-xx-mot) | LiDAR+camera | - |
 | DeepFusionMOT      | RAL2022 | 提出4阶段的数据关联       | [查看](#deepfusionmot) | LiDAR+camera | - |
 | ys_tracker      | TITS2022 | 为激光引入检测置信度，添加激光特特征       | [查看](#ys_tracker) | LiDAR | - |
 | simpletrack      | ECCV2022 | 全面总结TBD的问题       | [查看](#simpletrack) | LiDAR | - |
@@ -30,6 +31,7 @@
 | MMFJDT      | RAL2025 | 检测追踪融合框架，效果似乎不太好       | [查看]() | LiDAR+camera | - |
 | sambamotr   | ICLR2025  |  mamba结构的E2EMOT    | [查看]() | camera | - |
 | DINOMOT | RAL2025  | 引入DINOv2特征提取模块 | [查看](#dinomot) | camera | - |
+| HybridTrack | RAL 2025 | kf+数据驱动 | [查看](#hybridtrack) | LiDAR | - |
 
 
 <a id="sort"></a>
@@ -86,6 +88,15 @@
 
 ### 💡 学习收获
 - 可以说是第一个完整的多传感器融合的MOT框架。结构经典很清晰，后续工作可以在此基础上改进。
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="joint-xx-mot"></a>
+## Joint Multi-Object Detection and Tracking with Camera-LiDAR Fusion for Autonomous Driving
+### 🌟 基本信息
+- 开源地址：https://github.com/leandro-svg/HybridTrack
+- 发表信息：2021 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+
 
 <hr style="height: 4px; border: none; background: black;">
 
@@ -297,3 +308,14 @@
 - 将DINOv2特征提取器引入MOT
 - 它并非采用的传统REID的方法，而是使用视觉LUT来矫正追踪的情况。
 - 文章采用了两条线来完成追踪任务。主线依旧是传统的TBD框架，并且算是各方法的大成者，不同目标设置不同模型、不同参数、不同的关联矩阵和阈值。此外，另一条线就是重识别，利用LUT模块来纠正IDSW。主要思路是，如果提取到的特征和LUT库中的非常相似，那么这就是同一个目标，如果之前匹配错了此时会进行纠正。
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="hybridtrack"></a>
+## HybridTrack: A Hybrid Approach for Robust Multi-Object Tracking
+### 🌟 基本信息
+- 开源地址：https://github.com/leandro-svg/HybridTrack
+- 发表信息：IEEE Robotics and Automation Letters，2025,07
+![基本框架](./frame_work/hybridtrack.png)
+
+### 🎯 核心内容
