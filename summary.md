@@ -32,7 +32,7 @@
 | sambamotr   | ICLR2025  |  mamba结构的E2EMOT    | [查看]() | camera | - |
 | DINOMOT | RAL2025  | 引入DINOv2特征提取模块 | [查看](#dinomot) | camera | - |
 | HybridTrack | RAL 2025 | kf+数据驱动 | [查看](#hybridtrack) | LiDAR | - |
-
+| RobMOT | TITS2025 | 针对检测器的kf+新的生命机制 | [查看](#robmot) | LiDAR | - |
 
 <a id="sort"></a>
 ## Simple online and realtime tracking
@@ -319,3 +319,18 @@
 ![基本框架](./frame_work/hybridtrack.png)
 
 ### 🎯 核心内容
+- 设计了一个前端MLP网络，后端KALMANNET的新型滤波器
+
+
+<a id='robmot'></a>
+## RobMOT: 3D Multi-Object Tracking Enhancement Through Observational Noise and State Estimation Drift Mitigation in LiDAR Point Clouds
+### 🌟 基本信息
+- 开源地址：未开源
+- 发表信息：TITS2025
+![基本框架](./frame_work/robmot.png)
+
+### 🎯 核心内容
+- 采用了一种新的检测数据提取方式。就是更宽松了，放入一些低置信度但是也可能是真检测的结果。
+- 针对每种检测器提出了一个精修的卡尔曼滤波器。经过数据统计，发现检测器的误差呈现出一个高斯分布，所以新增了一个噪声参数来进行补偿。
+- 提出了一种新的轨迹生命管理策略，通过是否confirm来决定是否展示，通过目标的不确定度来决定是否继续跟踪。这框架确实和之前大不相同。
+

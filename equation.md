@@ -33,6 +33,8 @@ L2距离是简单的欧几里得距离。
 $D_{\text{L2}}(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}$
 </center>
 
+<hr style="height: 4px; border: none; background: black;">
+
 <a id="kf"></a>
 ### Kalman Filter
 Kalman滤波器是一种用于预测和估计动态系统的状态的滤波方法。下面是它在MOT中的常见形式。（CV/CA模型）
