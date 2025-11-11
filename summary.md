@@ -18,6 +18,7 @@
 | POLY-MOT   | IROS2023  | 不同类目标采用不同运动模型   | [查看](#ploymot) | LiDAR | - |
 | MOTRv2      | CVPR2023 | E2E+TBD，改进了E2E效果       | [查看]() | camera | - |
 | OC-SORT      | CVPR2023 | 利用观测值来固定滤波误差       | [查看](#ocsort) | camera | - |
+| ImprAsso | CVPR2023 | 改进的关联，匹配函数，遮挡初始化 | [查看](#ImprAsso) | camera | - |
 | Fusiontrack      | IROS2024 | 融合方法+提点模块      | [查看](#fusiontrack) | LiDAR+camera | - |
 | DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看]() | camera | - |
 | FastPOLY      | RAL2024 | 仔细考虑运动模型的构建CTRV，引入旋亲和度-       | [查看]() | LiDAR | - |
@@ -33,6 +34,7 @@
 | DINOMOT | RAL2025  | 引入DINOv2特征提取模块 | [查看](#dinomot) | camera | - |
 | HybridTrack | RAL 2025 | kf+数据驱动 | [查看](#hybridtrack) | LiDAR | - |
 | RobMOT | TITS2025 | 针对检测器的kf+新的生命机制 | [查看](#robmot) | LiDAR | - |
+| TrackTrack | CVPR2025 | 123 | [查看](#tracktrack) | camera | - |
 
 <a id="sort"></a>
 ## Simple online and realtime tracking
@@ -223,6 +225,24 @@
 - 文章推导出一个非常反直觉的结论：当$\delta_t$较小的时候，$\delta_t$越大两个时刻角度估计的误差越小。
 
 
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="ImprAsso"></a>
+## An Improved Association Pipeline for Multi-Person Tracking
+### 🌟 基本信息
+- 开源地址：未开源
+- 发表信息：2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)
+
+### 🎯 核心内容
+- 组合匹配（Combined Matching, CM）
+  - 这部分内容是针对BTYETRACK的改进。它说BYTE的方案有两个问题，未激活轨迹是无法和低置信度检测匹配的；总是高置信度检测先匹配，即使低置信度才是正确的。
+  - 为此，作者提出了一个组合匹配手段。首先还是先做一个二阶段的匹配，但是这步主要是为了调试出阈值。然后根据这个阈值，计算出一个缩放因子（低置信度和高置信度的检测和轨迹之间的距离函数会乘这个因子）。直接concat得到一个单一的距离矩阵，然后做匈牙利匹配。
+- 组合代价函数(Combined Distance, CD): 涉及了一个带权重的距离矩阵。包括马氏距离，外貌距离，IOU。
+- 遮挡感知初始化(Occlusion Aware Initialization, OAI): 该模块是为了减少误检的情况。作者认为误检的主要原因是因为目标太拥挤，导致检测器分不清边界，从而多生成了检测结果。解决办法很简单，对于一个新的检测结果，如果他和已有目标IOU非常高，那么就排除。
+
+
+### 💡 学习收获 
+这就是一个纯工程性的思路，所以也是发表在WORKSHOP上的。它还集成了相机运动补偿、NSA 卡尔曼滤波、YOLOX 检测器和重识别模型等等方法。九龙之力好吧。
 
 
 <hr style="height: 4px; border: none; background: black;">
@@ -321,6 +341,7 @@
 ### 🎯 核心内容
 - 设计了一个前端MLP网络，后端KALMANNET的新型滤波器
 
+<hr style="height: 4px; border: none; background: black;">
 
 <a id='robmot'></a>
 ## RobMOT: 3D Multi-Object Tracking Enhancement Through Observational Noise and State Estimation Drift Mitigation in LiDAR Point Clouds
@@ -334,3 +355,20 @@
 - 针对每种检测器提出了一个精修的卡尔曼滤波器。经过数据统计，发现检测器的误差呈现出一个高斯分布，所以新增了一个噪声参数来进行补偿。
 - 提出了一种新的轨迹生命管理策略，通过是否confirm来决定是否展示，通过目标的不确定度来决定是否继续跟踪。这框架确实和之前大不相同。
 
+<hr style="height: 4px; border: none; background: black;">
+
+<a id='tracktrack'></a>
+## Focusing on Tracks for Online Multi-Object Tracking
+### 🌟 基本信息
+- 开源地址：未开源
+- 发表信息：2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+
+### 🎯 核心内容
+本文最大的特点就是不再是过去全局优化（匈牙利算法），而是以轨迹为中心进行设计，聚焦每个轨迹的局部匹配精度和可靠初始化，适配多目标跟踪中轨迹与检测结果的强关联性。
+- 数据关联：Track-Perspective-Based Association（TPA）
+  - 全面使用了检测结果。本文使用到的检测结果包括 NMS后的高置信度结果、NMS后的低置信度结果、NMS排除但是置信度高的结果。如此一来，数据关联的候选集就非常丰富。然后作者的匹配方法其实是一个贪婪算法。检测和轨迹都是当前集合最优（互相）的时候认为是匹配。然后集合缩小，重复直到所有都低于阈值。
+- 轨迹初始化：Track-Aware Initialization（TAI）
+  - 由于检测结果的候选非常多，自然追踪器误检的情况会变多，作者就专门就此提出了一种初始化方法。其实就是一个NMS，在匹配任务完成后，围绕“匹配的轨迹”和“置信度非常高的检测”为中心做NMS，以排除误检。
+
+### 💡 学习收获 
+本文的方法也是非常的简单。我认为提点的最大原因在于检测结果收录的更多了。所有模块都是围绕这一点展开的。
