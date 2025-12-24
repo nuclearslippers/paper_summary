@@ -6,21 +6,26 @@
 | SORT      | ICIP2016 | TBD框架的开创论文       | [查看](#sort) | camera | - |
 | DeepSORT      | ICIP2017 | 首个引入外貌特征的MOT       | [查看](#deepsort) | camera | - |
 | AB3DMOT      | IROS2020 | 将TBD带入3D追踪邻域       | [查看](#ab3dmot) | LiDAR | 待细看 |
+| CenterTrack | ECCV2020 | 转换为跟踪点 | [查看](#centertrack) | camera | - |
+| JDE | ECCV2020 | JDE开创论文 | [查看](#jde) | camera | - |
+| FairMOT      | IJCV2021 | JDE改进       | [查看](#fairmot) | camera | - |
 | EagerMOT      | IRCA2021 | 首个将相机激光雷达融合的TBD框架       | [查看](#eagermot) | LiDAR+camera | - |
-| Joint-xx-MOT | IROS2021 | 联合检测框架 | [查看](#joint-xx-mot) | LiDAR+camera | - |
+| JMODT | IROS2021 | 联合检测框架 | [查看](#jmodt) | LiDAR+camera | - |
+| GIAOTrack | ICCVW2021 | NSA KF， EMA Bank | [查看](#giaotrack) | camera | Visdrone，offline |
 | DeepFusionMOT      | RAL2022 | 提出4阶段的数据关联       | [查看](#deepfusionmot) | LiDAR+camera | - |
 | ys_tracker      | TITS2022 | 为激光引入检测置信度，添加激光特特征       | [查看](#ys_tracker) | LiDAR | - |
 | simpletrack      | ECCV2022 | 全面总结TBD的问题       | [查看](#simpletrack) | LiDAR | - |
 | ByteTrack      | ECCV2022 | 引入二阶段的数据关联       | [查看](#bytetrack) | camera | - |
-| MOTR      | ECCV2022 | 首个E2EMOT       | [查看]() | camera | - |
-| StrongSORT      | TM2023 | Deepsort现代版，两个新机制       | [查看]() | camera | - |
+| MOTR      | ECCV2022 | 首个E2EMOT       | [查看](#motr) | camera | - |
+| TrackFormer     | CVPR2022 | 基于Transformer的E2EMOT       | [查看](#trackformer) | camera | - |
+| StrongSORT      | TM2023 | Deepsort现代版，两个新机制       | [查看](#strongsort) | camera | - |
 | DFRFast      | ICRA2023 | C++又快又好       | [查看](#dfr) | LiDAR+camera | - |
 | POLY-MOT   | IROS2023  | 不同类目标采用不同运动模型   | [查看](#ploymot) | LiDAR | - |
-| MOTRv2      | CVPR2023 | E2E+TBD，改进了E2E效果       | [查看]() | camera | - |
+| MOTRv2      | CVPR2023 | E2E+TBD，改进了E2E效果       | [查看](#motrv2) | camera | - |
 | OC-SORT      | CVPR2023 | 利用观测值来固定滤波误差       | [查看](#ocsort) | camera | - |
 | ImprAsso | CVPR2023 | 改进的关联，匹配函数，遮挡初始化 | [查看](#ImprAsso) | camera | - |
 | Fusiontrack      | IROS2024 | 融合方法+提点模块      | [查看](#fusiontrack) | LiDAR+camera | - |
-| DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看]() | camera | - |
+| DiffMOT      | CVPR2024 | 采用扩散模型来进行非线性运动预测       | [查看](#diffmot) | camera | - |
 | FastPOLY      | RAL2024 | 仔细考虑运动模型的构建CTRV，引入旋亲和度-       | [查看]() | LiDAR | - |
 | FastTrack      | IJCV2024 | 并行卡尔曼滤波-       | [查看]() | camera | - |
 | STT      | ICRA2024 | Transformer取代更多模块       | [查看](STT) | LiDAR | - |
@@ -34,7 +39,9 @@
 | DINOMOT | RAL2025  | 引入DINOv2特征提取模块 | [查看](#dinomot) | camera | - |
 | HybridTrack | RAL 2025 | kf+数据驱动 | [查看](#hybridtrack) | LiDAR | - |
 | RobMOT | TITS2025 | 针对检测器的kf+新的生命机制 | [查看](#robmot) | LiDAR | - |
-| TrackTrack | CVPR2025 | 123 | [查看](#tracktrack) | camera | - |
+| TrackTrack | CVPR2025 | 以轨迹为核心进行管理 | [查看](#tracktrack) | camera | - |
+| LA-MORT | CVPR2025 | E2E，解决检测与关联竞争 | [查看](#la-mort) | camera | - |
+
 
 <a id="sort"></a>
 ## Simple online and realtime tracking
@@ -72,6 +79,48 @@
 
 <hr style="height: 4px; border: none; background: black;">
 
+<a id="centertrack"></a>
+## Tracking Objects as Points
+### 🌟 基本信息
+- 开源地址：https://github.com/xingyizhou/CenterTrack
+- 发表信息：2020 European conference on computer vision (ECCV)
+
+### 🎯 核心内容
+- 核心思想：把跟踪简化为“跟踪中心点”的问题。把每个目标表示为一个 2D 中心点（object center），并在两帧间预测中心位移（offset）来进行关联。
+- 输入：当前帧 + 前一帧 + 上一帧跟踪中心点热力图（heatmap）
+- 基于 CenterNet 的检测头：中心点热力图 + 尺寸回归 + 偏移回归
+- Offset-based 简单贪心关联（Tracking-by-Offset）
+
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="jde"></a>
+## Towards Real-Time Multi-Object Tracking
+### 🌟 基本信息
+- 开源地址：https://github.com/Zhongdao/Towards-Realtime-MOT
+- 发表信息：2020 European conference on computer vision (ECCV)
+![基本框架](./frame_work/jde.png)
+
+### 🎯 核心内容
+- 提出了首个联合检测和嵌入（REID）的框架，将检测和特征提取集成到一个网络中，提高了多目标追踪的实时性。
+- 单模型多任务学习：检测 + Embedding 同时输出
+- 多任务损失 + 自动损失权重学习
+- Embedding 学习采用 Cross-Entropy 而非 Triplet Loss
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="fairmot"></a>
+## FairMOT: On the Fairness of Detection and Re-Identification in Multiple Object Tracking
+### 🌟 基本信息
+- 开源地址：https://github.com/ifzhang/FairMOT
+- 发表信息：2021 International journal of computer vision (IJCV)
+![基本框架](./frame_work/fairmot.png)
+
+### 🎯 核心内容
+作者指出，虽然单模型（one-shot）联合检测 + re-ID 的 MOT 框架在速度上有优势，但现有方法往往存在 “不公平性（unfairness）” —— 即检测任务被优先优化，而 re-ID 任务处在明显劣势，导致整体跟踪性能显著下降。
+
+<hr style="height: 4px; border: none; background: black;">
+
 <a id="eagermot"></a>
 ## EagerMOT: 3D Multi-Object Tracking via Sensor Fusion
 ### 🌟 基本信息
@@ -93,11 +142,27 @@
 
 <hr style="height: 4px; border: none; background: black;">
 
-<a id="joint-xx-mot"></a>
+<a id="jmodt"></a>
 ## Joint Multi-Object Detection and Tracking with Camera-LiDAR Fusion for Autonomous Driving
 ### 🌟 基本信息
-- 开源地址：https://github.com/leandro-svg/HybridTrack
+- 开源地址：https://github.com/Kemo-Huang/JMODT
 - 发表信息：2021 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id='giaotrack'></a>
+## GIAOTracker: A comprehensive framework for MCMOT with global information and optimizing strategies in VisDrone 2021
+### 🌟 基本信息
+- 开源地址：https://github.com/dyhBUPT/GIAOTracker
+- 发表信息：2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)
+![基本框架](./frame_work/giaotrack.png)
+
+
+### 🎯 核心内容
+- 整体是一个offline的追踪器，不过它有几个先进的模块值得学习。也是后面strongsort的基础。
+- NSA KALMAN：说白了，就是自适应噪声的卡尔曼滤波器
+- EMA BANK：EMA + BANK机制。EMA会考虑目标变化，而BANK则保存历史的外貌特征
+- ORB+RANSAC： 由于是无人机数据集，作者对输入图像做了一些对齐变换。
 
 
 <hr style="height: 4px; border: none; background: black;">
@@ -172,6 +237,50 @@
 
 <hr style="height: 4px; border: none; background: black;">
 
+<a id="motr"></a>
+## MOTR: End-to-End Multiple-Object Tracking with Transformer
+### 🌟 基本信息
+- 开源地址：https://github.com/megvii-research/MOTR
+- 发表信息：European conference on computer vision 2022
+![基本框架](./frame_work/motr.png)
+
+### 🎯 核心内容
+- 提出了首个端到端的多目标追踪框架，正式将端到端方法引入MOT领域。
+- 把 DETR 的 object query 扩展为具有时间维度的 track query，使同一查询在不同帧持续更新表示同一物体。
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="trackformer"></a>
+## TrackFormer: Multi-Object Tracking with Transformers
+### 🌟 基本信息
+- 开源地址：https://github.com/timmeinhardt/trackformer
+- 发表信息：CVPR 2022
+![基本框架](./frame_work/trackformer.png)
+
+### 🎯 核心内容
+- 提出了基于Transformer的端到端多目标追踪框架TrackFormer。新的框架，作者称之为“tracking-by-attention”。
+- 直接用 Transformer decoder 的 attention 完成检测 + 关联的联合建模
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="strongsort"></a>
+## StrongSORT: Make DeepSORT Great Again
+### 🌟 基本信息
+- 开源地址：https://github.com/dyhBUPT/StrongSORT
+- 发表信息：IEEE Transactions on Multimedia 2023
+
+### 🎯 核心内容
+- 如其名，StrongSORT就是Deepsort的加强版，在Deepsort的基础上，使用了最新的追踪机制，然后添加了两个新模块。
+- AFLink： 解决同一目标被错误地分成多个 tracklets
+- GSI： 解决检测器漏检导致轨迹断裂。通过使用高斯插值的方式进行平滑轨迹
+
+
+
+
+
+
+<hr style="height: 4px; border: none; background: black;">
+
 <a id="dfr"></a>
 ## DFR-FastMOT: Detection Failure Resistant Tracker for Fast Multi-Object Tracking Based on Sensor Fusion
 ### 🌟 基本信息
@@ -203,7 +312,17 @@
 ### 💡 学习收获 
 - 他们实验室走的是传统模型路线，设计了非常精细的模型，并且配套复杂的处理机制，从而提高最终效果。
 
+<hr style="height: 4px; border: none; background: black;">
 
+<a id="motrv2"></a>
+## MOTRv2: Bootstrapping End-to-End Multi-Object Tracking by Pretrained Object Detectors
+### 🌟 基本信息
+- 开源地址：https://github.com/megvii-research/MOTRv2
+- 发表信息：2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+![基本框架](./frame_work/motrv2.png)
+
+### 🎯 核心内容
+- MOTR是第一个端到端的多目标追踪框架，但是效果并不好。MOTRv2通过分析，分为性能不好的主要原因是检测性能不好。于是，他们采取了一个类似与TBD的思路，提出了用一个预训练 YOLOX proposal 作为 anchor，引导 MOTR
 
 <hr style="height: 4px; border: none; background: black;">
 
@@ -267,6 +386,21 @@
 - 注意到，本文使用了外貌特征。因此，作者也使用了EMA模块来更新外貌特征。
 - 本文使用的是KF-CA模型。
 - 本文非常适合作为对比目标。它是IROS24年结果，并且方法也很常规，指标不算特别高。
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id="diffmot"></a>
+## DiffMOT: A Real-time Diffusion-based Multiple Object Tracker with Non-linear Prediction
+### 🌟 基本信息
+- 开源地址：https://github.com/Kroery/DiffMOT
+- 发表信息：2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+![基本框架](./frame_work/diffmot.png)
+
+### 🎯 核心内容
+多目标跟踪（MOT）在跟踪-by-检测框架中高度依赖运动预测器。主流方法大多采用近似线性的模型来做预测，但在更加复杂的场景中不适用。
+文章将扩散模型引入到目标的运动预测中，提出了一个D2MP网络
+
+
 
 <hr style="height: 4px; border: none; background: black;">
 
@@ -353,7 +487,8 @@
 ### 🎯 核心内容
 - 采用了一种新的检测数据提取方式。就是更宽松了，放入一些低置信度但是也可能是真检测的结果。
 - 针对每种检测器提出了一个精修的卡尔曼滤波器。经过数据统计，发现检测器的误差呈现出一个高斯分布，所以新增了一个噪声参数来进行补偿。
-- 提出了一种新的轨迹生命管理策略，通过是否confirm来决定是否展示，通过目标的不确定度来决定是否继续跟踪。这框架确实和之前大不相同。
+- 轨迹验证机制：用来消除幽灵轨迹。大致就是一个轨迹有一个评分机制，如果评分高于阈值就认定为是真实轨迹。是一种降低误检的机制。
+- 提出了一种新的轨迹生命管理策略，通过协方差来决定轨迹的存活与否，通过目标的不确定度来决定是否继续跟踪。这框架确实和之前大不相同。
 
 <hr style="height: 4px; border: none; background: black;">
 
@@ -372,3 +507,17 @@
 
 ### 💡 学习收获 
 本文的方法也是非常的简单。我认为提点的最大原因在于检测结果收录的更多了。所有模块都是围绕这一点展开的。
+
+
+<hr style="height: 4px; border: none; background: black;">
+
+<a id='la-mort'></a>
+## LA-MORT: LA-MOTR: End-to-End Multi-Object Tracking by Learnable Association
+### 🌟 基本信息
+- 开源地址：https://github.com/PenK1nG/LA-MOTR
+- 发表信息：2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition(CVPR)
+![基本框架](./frame_work/la-motr.png)
+
+### 🎯 核心内容
+- 提出了一个端到端的多目标追踪框架LA-MORT，解决了检测与关联之间的竞争问题。
+- 文章认为现有的E2E方法

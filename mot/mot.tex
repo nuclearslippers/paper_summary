@@ -1,0 +1,326 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{ctex}
+\usepackage{lmodern} 
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+\section{MOT问题定义}
+
+多目标跟踪（MOT）任务旨在通过对一系列连续时刻的观测数据进行分析，估计和跟踪多个目标的运动轨迹。
+
+具体的，我们定义如下量：
+
+\begin{itemize}
+    \item 时刻 $t$ 的真实目标状态集合：
+    \[
+        S = \{ s_1, s_2, \ldots, s_m \}.
+    \]
+
+    \item 时刻 $t-1$ 的最优状态估计集合：
+    \[
+        T = \{ t_1, t_2, \ldots, t_n \}.
+    \]
+
+    \item 时刻 $t$ 的目标检测（状态观测）集合：
+    \[
+        D = \{ d_1, d_2, \ldots, d_h \}.
+    \]
+
+    \item 时刻 $t$ 要求得到的最优状态估计集合：
+    \[
+        \hat{T} = \{ \hat{t}_1, \hat{t}_2, \ldots, \hat{t}_p \}.
+    \]
+\end{itemize}
+
+我们的目标是求解 $\hat{T}$，使得下式达到最小：
+
+\[
+    \sum_{i=1}^{k} \left\| \hat{t}_i - s_i \right\|_2^2,
+\]
+其中
+\[
+    k = \max(m,\, p).
+\]
+
+\subsection{单目标最优估计问题}
+
+对于这个函数可以进一步拆分为多个单项最小化问题。对于每个目标的估计，我们可以将其单独处理，使得每个目标的状态估计问题简化为单目标状态估计问题。具体来说，对于每个目标 $i$，我们要求最小化以下目标函数：
+\[
+    \left\| \hat{t}_i - s_i \right\|_2^2,
+\]
+其中 $\hat{t}_i$ 是目标 $i$ 在时刻 $t$ 的最优状态估计，$s_i$ 是目标 $i$ 在时刻 $t$ 的真实状态。
+
+在这种简化的情况下，单目标状态估计问题的数学模型通常可以通过卡尔曼滤波、粒子滤波等方法来求解，其中卡尔曼滤波特别适用于线性动态系统。
+
+\subsection{目标对齐与检测匹配问题}
+在多目标跟踪问题中，除了最小化每个目标的状态估计误差外，另一个关键问题是目标的对齐，即如何确保每个估计目标与真实目标之间建立正确的一一对应关系。这个对齐问题涉及两个方面：数量上的一致性和真实性上的一致性。
+
+我们要求在时刻 $t$ 的状态估计 $\hat{T}$ 和真实目标状态 $S$ 之间建立准确的对齐关系。具体而言，目标对齐的要求包括：
+
+1. 数量一致性：估计目标的数量应与实际目标的数量相等，即：
+   \[
+       p = m = k.
+   \]
+
+2. 物理世界一致性：每个估计目标 $\hat{t}_i$ 与真实目标 $s_i$ 必须表示同一物理世界中的目标，即，它们需要具有一一对应关系。在这种情况下，误差最小化是通过以下目标函数实现的：
+   \[
+       \sum_{i=1}^{k} \left\| \hat{t}_i - s_i \right\|_2^2,
+   \]
+   其中，$k = \max(m, p)$，$m$ 是真实目标数量，$p$ 是估计目标数量。
+
+
+\section{问题的进一步研究-单目标状态估计}
+
+\subsection{单目标状态估计}
+
+在本节中，我们探讨单目标状态估计问题。假设在时刻 $t$ 和时刻 $t-1$，我们有一对目标检测 $D_t$ 和先前的状态估计 $T_{t-1}$，我们希望通过结合这两者来估计当前时刻的目标状态 $\hat{T_t}$。
+
+为了描述目标的运动过程，我们假设目标在连续时间内服从某种时变非线性状态空间模型。假设目标的状态演化可以由以下的状态转移方程和观测方程来描述：
+
+
+
+\begin{tcolorbox}
+    \textbf{已知:}
+    \begin{itemize}
+        \item $t$ 时刻的目标观测值 $D_t$。
+        \item $t-1$ 时刻的目标状态估计 $T_{t-1}$。
+    \end{itemize}
+
+    寻找一个最优估计函数 $f(\cdot)$，使得估计 $\hat{T_t} = f(D_t, T_{t-1})$ 最优：
+
+    \[
+        \hat{T_t}^* = \arg\min_{f(\cdot)} \left\| \hat{T_t} - S_t \right\|_2^2
+    \]
+
+    为了方便描述，我们用 $x_t$ 来表示目标状态 $T_t$，用 $z_t$ 来表示观测值 $D_t$。
+    目标的状态演化可以由以下的时变非线性状态空间模型描述：
+
+    \[
+        x_t = f_t(x_{t-1}) + w_t
+    \]
+    \[
+        z_t = h_t(x_t) + v_t
+    \]
+
+    其中：
+    \begin{itemize}[itemsep=0pt,parsep=0pt]
+        \item $x_t$ 为目标的状态向量，即$T_t$
+        \item $f_t(\cdot)$ 非线性函数，描述从时刻 $t-1$ 到时刻 $t$ 的状态演化
+        \item $w_t \sim \mathcal{N}(0, Q_t)$ 为过程噪声
+        \item $z_t$ 为时刻 $t$ 的观测值，也就是$D_t$
+        \item $h_t(\cdot)$ 是观测函数，将状态空间映射到观测空间，即$I$
+        \item $v_t \sim \mathcal{N}(0, R_t)$ 为观测噪声
+    \end{itemize}
+
+\end{tcolorbox}
+
+\subsubsection{卡尔曼滤波方法}
+
+经典的卡尔曼滤波（Kalman Filter）是一种用于线性系统状态估计的递归算法。卡尔曼滤波的基本思想是在状态空间模型的基础上进行递归估计，通过假设系统模型为线性，并且噪声为高斯分布，从而可以通过最小均方误差（MMSE）准则对目标状态进行估计。
+
+卡尔曼滤波器的状态估计和协方差矩阵更新步骤如下：
+
+\textbf{预测阶段}：
+\[
+    \hat{x}_{t|t-1} = A \hat{x}_{t-1|t-1}
+\]
+\[
+    P_{t|t-1} = A P_{t-1|t-1} A^T + Q
+\]
+
+\textbf{更新阶段}：
+\[
+    K_t = P_{t|t-1} H^T (H P_{t|t-1} H^T + R)^{-1}
+\]
+\[
+    \hat{x}_{t|t} = \hat{x}_{t|t-1} + K_t (z_t - H \hat{x}_{t|t-1})
+\]
+\[
+    P_{t|t} = (I - K_t H) P_{t|t-1}
+\]
+
+其中：
+\begin{itemize}[itemsep=0pt]
+    \item $K_t$ 是卡尔曼增益，决定了预测值与观测值的权重。
+    \item $\hat{x}_{t|t-1}$ 是预测的状态估计。
+    \item $P_{t|t-1}$ 是预测的协方差矩阵，表示估计的可靠性。
+    \item $H_t$ 是观测矩阵，定义了状态到观测的映射。
+    \item $\hat{x}_{t|t}$ 是当前时刻的最优状态估计。
+    \item $P_{t|t}$ 是更新后的协方差矩阵。
+\end{itemize}
+
+
+\subsubsection{卡尔曼滤波的假设及其局限性}
+
+卡尔曼滤波的效果和假设紧密相关，这些假设在某些情况下可能会导致效果不佳：
+
+\begin{itemize}[itemsep=2pt,parsep=0pt]
+    \item 运动模型假设：卡尔曼滤波假设系统模型是线性且时不变的。然而，现实中的运动模型往往是非线性的，且不同类型的目标（如跑车、轿车等）可能有不同的运动模型，导致卡尔曼滤波的估计不准确。
+    \item 噪声假设：卡尔曼滤波假设过程噪声和观测噪声是高斯分布且时不变的。但在实际应用中，噪声可能是时变的，且并不总是遵循高斯分布，特别是在复杂环境下，非高斯噪声的存在可能影响估计精度。
+    \item 初值问题：卡尔曼滤波对初始状态估计非常敏感。如果初值选择不准确，可能会导致滤波过程中的累积误差，影响最终的状态估计。
+\end{itemize}
+
+这些假设在某些复杂场景中可能会引入误差，尤其是当目标系统的行为与卡尔曼滤波的假设不符时。为了克服这些局限性，研究人员提出了扩展卡尔曼滤波（EKF）和无迹卡尔曼滤波（UKF）等方法，它们能够处理一定程度的非线性问题，并且更能适应复杂的噪声环境，但这些方法仍然面临着处理高维度和非高斯噪声的挑战。
+
+
+\subsection{前沿论文调研}
+
+为了提升每个目标的状态估计效果，学界提出了多种改进方法，主要包括基于检测质量自适应调整噪声的 NSA Kalman Filter，以及利用检测器统计噪声建模的 RobMOT。
+
+\subsubsection*{GIAOTRACK：NSA Kalman Filter}
+
+GIAOTRACK 虽然是一种 offline 的方法，但其提出的 NSA Kalman Filter（NSA KF）在之后的系列工作中受到了广泛采用。NSA KF 的核心思想是：
+基于检测置信度自适应调整测量噪声协方差，从而补偿传统 KF 对噪声固定假设的不足。
+该方法通过检测置信度来动态调节测量噪声，使得在低置信度检测下，滤波器能够更谨慎地更新状态。
+
+\paragraph{1. 固定测量噪声协方差预设}
+
+\[
+R_k \in \mathbb{R}^{d \times d}, \quad d=\text{测量维度}
+\]
+
+\paragraph{2. 检测置信度}
+
+\[
+c_k \in [0,1], \quad \text{表示第 $k$ 帧检测置信度}
+\]
+
+\paragraph{3. 自适应测量噪声（NSA 核心公式）}
+
+\begin{equation}
+\tilde{R}_{k} = (1 - c_k)\, R_k
+\end{equation}
+
+\paragraph{4. NSA Kalman Filter 更新步骤}
+
+\begin{itemize}[leftmargin=10em,itemsep=2pt,parsep=0pt]
+    \item $\tilde{y}_k = z_k - H_k \hat{x}_{k|k-1}$
+    \item $\tilde{R}_k = (1 - c_k)\, R_k$
+    \item $S_k = H_k P_{k|k-1} H_k^{T} + \tilde{R}_k$
+    \item $K_k = P_{k|k-1} H_k^{T} S_k^{-1}$
+    \item $\hat{x}_{k|k} = \hat{x}_{k|k-1} + K_k \tilde{y}_k$
+    \item $P_{k|k} = (I - K_k H_k) P_{k|k-1}$
+\end{itemize}
+
+\textit{潜在问题：不同检测器的置信度分布不同，可能导致噪声调整效果不一致。}
+
+
+\subsubsection*{RobMOT：基于检测器噪声建模的稳健 KF}
+
+RobMOT 在 GIAOTRACK 的基础上进一步改进,显式建模检测器在 x,y 方向上的统计误差，并将其融入 KF 的创新协方差中。  
+相比 NSA-KF 仅根据置信度调整噪声，RobMOT 通过数据驱动地估计检测器噪声统计，使 KF 更新更加稳健。
+
+\paragraph{1. 检测器噪声统计建模}
+
+通过对齐检测结果与 Ground Truth，统计各维度误差的均值与方差：
+
+\begin{equation}
+\begin{aligned}
+\mu_{x} & = \frac{1}{\sum_{i=1}^{N} k_{i}} 
+\sum_{i=1}^{N} \sum_{j=1}^{k_{i}} 
+\left(z_{ij}^{gt}(x) - z_{ij}^{det}(x)\right) \\
+\sigma_{x}^{2} & = \frac{1}{\sum_{i=1}^{N} k_{i}} 
+\sum_{i=1}^{N} \sum_{j=1}^{k_{i}} 
+\left(\left(z_{ij}^{gt}(x) - z_{ij}^{det}(x)\right) - \mu_{x}\right)^{2}
+\end{aligned}
+\end{equation}
+
+$z_{ij}^{gt}$ 和 $z_{ij}^{det}$ 分别表示 GT 与检测位置。对 $y$ 方向重复同样的计算，最终得到检测器噪声协方差矩阵：
+
+\begin{equation}
+D_{t} = 
+\begin{bmatrix}
+\sigma_{x}^{2} & 0\\
+0 & \sigma_{y}^{2}
+\end{bmatrix}
+\end{equation}
+
+该矩阵量化了检测器在当前位置引入的不确定性。
+
+\paragraph{2. 改进的 Kalman Filter 更新}
+
+RobMOT 将 $D_t$ 显式加入创新协方差 $S_t$：
+
+\begin{itemize}[leftmargin=10em,itemsep=2pt,parsep=0pt]
+    \item $\tilde{y}_{t} = z_{t} - H_{t} \hat{x}_{t|t-1}$
+    \item $S_{t} = H_{t} P_{t|t-1} H_{t}^{T} + R_{t} + D_{t}$
+    \item $K_{t} = P_{t|t-1} H_{t}^{T} S_{t}^{-1}$
+    \item $\hat{x}_{t|t} = \hat{x}_{t|t-1} + K_{t} \tilde{y}_{t}$
+    \item $P_{t|t} = (I - K_{t} H_{t}) P_{t|t-1}$
+\end{itemize}
+
+通过显式考虑检测器的统计误差，RobMOT 在遮挡、远距离检测等低质量检测场景下，显著降低了轨迹漂移，提高了跟踪的稳定性与准确性。
+
+\subsubsection*{KALMANNET:通过神经网络隐式建模噪声}
+
+在系统动力学部分已知但噪声统计未知、甚至存在模型不匹配的情况下，利用深度学习提升 Kalman 滤波的实时状态估计能力。
+其实现框架可以概括为：在保持 Kalman Filter 结构（预测—更新）的前提下，用一个 RNN（GRU） 学习“卡尔曼增益 K”的计算方式。
+
+KalmanNet 的核心思想是在保持卡尔曼滤波（Kalman Filter, KF）
+预测–更新结构的前提下，使用一个递归神经网络（RNN）来学习
+每个时刻的卡尔曼增益 $K_t$。其整体架构可以被分为三个主要模块：
+预测（Prediction）、增益学习模块（Kalman Gain Learning Module）、
+以及更新（Update）。
+
+\textbf{1. Prediction Module}
+
+在预测阶段，KalmanNet 完全保留了模型驱动（Model-Based）KF 的结构，
+使用（可能并不精确的）系统动力学 $f(\cdot)$ 及观测模型 $h(\cdot)$ 来给出
+先验的状态与观测预测：
+\begin{align}
+    \hat{x}_{t|t-1} &= f(\hat{x}_{t-1}), \\
+    \hat{y}_{t|t-1} &= h(\hat{x}_{t|t-1}).
+\end{align}
+
+与经典 KF 不同的是：KalmanNet 不再显式维护或传播二阶统计量（如协方差矩阵
+$\Sigma_{t|t-1}$），而是仅保留一阶矩，以便在更新时由 RNN 隐式学习这些统计量中的关键信息。
+
+\textbf{2. Kalman Gain Learning Module}
+
+为了让 RNN 能够隐式学习噪声统计与协方差传播，KalmanNet 对输入的观测和状态历史构造四类差分特征：
+\begin{itemize}[leftmargin=10em,itemsep=2pt,parsep=0pt]
+    \item $\mathbf{F1}$：连续观测差分 $\Delta \tilde{y}_t = y_t - y_{t-1}$；
+    \item $\mathbf{F2}$：创新项差分 $\Delta y_t = y_t - \hat{y}_{t|t-1}$；
+    \item $\mathbf{F3}$：相邻后验状态差分 $\Delta \tilde{x}_t = \hat{x}_{t|t} - \hat{x}_{t-1|t-1}$；
+    \item $\mathbf{F4}$：后验与先验差分 $\Delta \hat{x}_t = \hat{x}_{t|t} - \hat{x}_{t|t-1}$。
+\end{itemize}
+
+上述特征能够有效携带系统动力学的变化信息与噪声统计信息，
+使得 RNN 可以通过这些时间序列学习卡尔曼增益的最优计算规律。
+
+KalmanNet 采用一个结构紧凑的 RNN（通常为 GRU）来学习时变卡尔曼增益：
+\[
+K_t = \mathrm{RNN}(\text{features at time } t).
+\]
+
+RNN 的设计有两种典型形式：
+\begin{enumerate}
+    \item 单 GRU 大状态结构：一个较大维度的 GRU 隐状态同时隐式追踪
+          过程噪声、观测噪声、预测协方差与创新协方差等二阶统计量；
+    \item 多 GRU 分模块结构：分别为过程噪声 $Q$、预测协方差
+          $\Sigma_{t|t-1}$、创新协方差 $S_t$ 建立三个 GRU，并按 KF 流程进行串联，
+          使网络结构更具可解释性。
+\end{enumerate}
+
+无论采用哪种结构，RNN 输出的 $K_t \in \mathbb{R}^{m \times n}$ 都直接用于更新步骤。
+
+\textbf{3. Update Module}
+
+更新步骤保持与 KF 完全相同的形式：
+\begin{align}
+    \hat{x}_{t} &= 
+    \hat{x}_{t|t-1} + K_t \bigl(y_t - \hat{y}_{t|t-1}\bigr).
+\end{align}
+
+其中，创新项 $\Delta y_t = y_t - \hat{y}_{t|t-1}$ 依然是唯一依赖观测的量；
+区别仅在于增益 $K_t$ 由 RNN 给出而非由 KF 的解析公式计算。
+
+该架构既保留了 KF 的可解释性与结构优势，又通过数据驱动的增益学习克服模型不完备、
+噪声统计未知及强非线性带来的性能退化问题。
+
+
+\end{document}
