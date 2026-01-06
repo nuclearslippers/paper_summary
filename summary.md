@@ -275,10 +275,6 @@
 - GSI： 解决检测器漏检导致轨迹断裂。通过使用高斯插值的方式进行平滑轨迹
 
 
-
-
-
-
 <hr style="height: 4px; border: none; background: black;">
 
 <a id="dfr"></a>
